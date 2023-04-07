@@ -4,10 +4,11 @@ import NotFound from './views/NotFound'
 import Layout from './layouts'
 import ForumThread from './views/ForumThread';
 import {Routes, Route} from 'react-router-dom'
-import ThemeContextProvider from './context/themeContext'
+import ThemeContextProvider from './themeContext'
 import ThreadComments from './views/ThreadComments';
 import Login from './views/Login';
 import EventPage from './views/Calendar';
+
 
 
 

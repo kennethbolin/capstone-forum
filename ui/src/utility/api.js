@@ -119,6 +119,10 @@ const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:9000'
 //   return responseData
 // }
 
+
+
+////getThread, deleteThread, updateThread  for the ThreadCard in './ForumThread'///
+
 export const getThread = async() => {
 
   const response = await fetch(`${baseUrl}/thread`, {
@@ -134,12 +138,46 @@ export const getThread = async() => {
     throw new Error(`Status Code: ${response?.status} - ${responseData?.message}`)
   }
 
-  return responseData;
+  return responseData
 
 }
 
-//////////////////////////////////////////////////////////////
+export const deleteThread = async (thread_id) => {
+  try {
+    const response = await fetch(`${baseUrl}/thread/${thread_id}`, {
+      method: 'DELETE',
+    })
+    return await response.json()
+  } catch (error) {
+    console.log('Error deleting thread:', error)
+  }
+}
 
+
+
+export const updateThread = async (thread_id, updatedThreadData) => {
+  try {
+    const response = await fetch(`${baseUrl}/thread/${thread_id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedThreadData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error updating thread: ${response.statusText}`)
+    }
+
+    return response.json()
+  } catch (error) {
+    console.error('Error updating thread:', error)
+    throw error;
+  }
+}
+
+
+//createThread for the PostForm-------------------
 export const createThread = async ({ title, subject }) => {
   const response = await fetch(`${baseUrl}/thread`, {
     method: 'POST',
@@ -147,17 +185,17 @@ export const createThread = async ({ title, subject }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ title, subject }),
-  });
+  })
 
   if (!response.ok) {
-    const responseData = await response.json();
-    throw new Error(`Status Code: ${response.status} - ${responseData.message}`);
+    const responseData = await response.json()
+    throw new Error(`Status Code: ${response.status} - ${responseData.message}`)
   }
 
-  return response.json();
+  return response.json()
 };
 
-//////////////////////////////////////////////////////////////
+//////////--'./ThreadComments/index.js'--////////////
 
 export const getComments = async(thread_id) => {
 
@@ -174,43 +212,51 @@ export const getComments = async(thread_id) => {
     throw new Error(`Status Code: ${response?.status} - ${responseData?.message}`)
   }
 
-  return responseData;
+  return responseData
 
 }
 
-//////////////////////////////////////////////////////////////
 
+// Update a comment
+export const updateComment = async (thread_id, updatedComment) => {
+  const response = await fetch(`${baseUrl}/thread/${thread_id}/comments`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedComment),
+  })
 
-export const deleteThread = async (thread_id) => {
-  try {
-    const response = await fetch(`${baseUrl}/thread/${thread_id}`, {
-      method: 'DELETE',
-    });
-    return await response.json();
-  } catch (error) {
-    console.log('Error deleting thread:', error);
+  if (!response.ok) {
+    throw new Error(`Error updating comment: ${response.statusText}`)
   }
-};
 
-//////////////////////////////////////////////////////////////
+  return await response.json()
+}
 
-export const updateThread = async (thread_id, updatedThreadData) => {
-  try {
-    const response = await fetch(`${baseUrl}/thread/${thread_id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedThreadData),
-    });
+// Delete a comment
+export const deleteComment = async (thread_id) => {
+  const response = await fetch(`${baseUrl}/thread/${thread_id}/comments`, {
+    method: 'DELETE',
+  });
 
-    if (!response.ok) {
-      throw new Error(`Error updating thread: ${response.statusText}`);
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error('Error updating thread:', error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(`Error deleting comment: ${response.statusText}`)
   }
-};
+}
+
+export const createComment = async (thread_id, newComment) => {
+  const response = await fetch(`${baseUrl}/thread/${thread_id}/comments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newComment),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error creating comment: ${response.statusText}`)
+  }
+
+  return await response.json()
+}

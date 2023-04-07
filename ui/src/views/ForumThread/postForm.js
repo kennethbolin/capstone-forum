@@ -9,24 +9,24 @@ import { createThread } from "../../utility/api";
 function PostForm() {
 
   //Set sates
-  const [postTitle, setPostTitle] = useState("");
-  const [postSubject, setPostSubject] = useState("");
+  const [postTitle, setPostTitle] = useState("")
+  const [postSubject, setPostSubject] = useState("")
   //const [file, setFile] = useState(null); <--for possibly adding a photo
 
   //helper functions
   //need to handle the submit button to send the subject and title data to the backend
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = { title: postTitle, subject: postSubject };
+    e.preventDefault()
+    const data = { title: postTitle, subject: postSubject }
     console.log(data);
     try {
-      await createThread(data);
-      setPostTitle('');
-      setPostSubject('');
+      await createThread(data)
+      setPostTitle('')
+      setPostSubject('')
     } catch (error) {
-      console.error('Error creating thread:', error);
+      console.error('Error creating thread:', error)
     }
-  };
+  }
 
   //return a form post component that has a title and subject feild.
   //title must be filled out but subject can be left blank
@@ -70,7 +70,7 @@ function PostForm() {
         </Button>
       </form>
     </Box>
-  );
+  )
 }
   
 export default PostForm;

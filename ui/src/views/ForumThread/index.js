@@ -20,21 +20,21 @@ function ThreadCard() {
   //set states
   const [data, setData] = useState([]);
   const [editingThreadId, setEditingThreadId] = useState(null);
-  const [editTitle, setEditTitle] = useState("");
-  const [editSubject, setEditSubject] = useState("");
+  const [editTitle, setEditTitle] = useState("")
+  const [editSubject, setEditSubject] = useState("")
 
   //use any helper functions
   //need a function to be able to submit a delete request to the API to remove a post
   const handleDelete = async (thread_id) => {
-    await deleteThread(thread_id);
+    await deleteThread(thread_id)
     setData(data.filter((thread) => thread.thread_id !== thread_id));
   };
 
   //need a function to be able to handle the edit button the be able to send a put request to the API
   const handleEdit = (thread_id, title, subject) => {
-    setEditingThreadId(thread_id);
-    setEditTitle(title);
-    setEditSubject(subject);
+    setEditingThreadId(thread_id)
+    setEditTitle(title)
+    setEditSubject(subject)
   };
 
   //function to handle the save button on click
@@ -45,19 +45,19 @@ function ThreadCard() {
     };
   
     try {
-      const response = await updateThread(thread_id, updatedThread);
-      console.log("Thread updated:", response);
+      const response = await updateThread(thread_id, updatedThread)
+      console.log("Thread updated:", response)
   
       // Update the local data
       const newData = data.map((thread) =>
         thread.thread_id === thread_id ? { ...thread, ...updatedThread } : thread
       );
-      setData(newData);
+      setData(newData)
   
       // Hide the edit form
-      setEditingThreadId(null);
+      setEditingThreadId(null)
     } catch (error) {
-      console.error("Error updating thread:", error);
+      console.error("Error updating thread:", error)
     }
   };
 

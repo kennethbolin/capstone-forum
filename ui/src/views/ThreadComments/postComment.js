@@ -2,25 +2,28 @@ import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box, Typography } from "@mui/material";
+import { createComment } from "../../utility/api";
 
 
 
 function PostComment() {
 
   //Set sates
-  const [postContent, setPostContent] = useState("");
-  const [file, setFile] = useState(null);
+  const [postContent, setPostContent] = useState("")
 
   //helper functions
   //need to handle the submit button to send the subject and title data to the backend
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = { content: postContent, file: file };
-    console.log(data);
-    //send data to API or other functiconons
-    setPostContent("");
-    setFile(null);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = { content: postContent }
+    console.log(data)
+    try{    
+      await createComment(data)
+      setPostContent('')
+    } catch (error) {
+        console.error('Error creating comment:', error)
+      }
+  }
 
   //return a form post component that has a title and subject feild.
   //title must be filled out but subject can be left blank
@@ -55,7 +58,7 @@ function PostComment() {
         </Button>
       </form>
     </Box>
-  );
+  )
 }
   
   export default PostComment;
